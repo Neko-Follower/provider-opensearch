@@ -8,7 +8,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	"github.com/tagesjump/provider-opensearch/apis/v1beta1"
+	"github.com/tagesjump/provider-opensearch/apis/cluster/v1beta1"
 )
 
 // Setup adds a controller that reconciles ProviderConfigs by accounting for
@@ -29,4 +29,15 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		Complete(providerconfig.NewReconciler(mgr, of,
 			providerconfig.WithLogger(o.Logger.WithValues("controller", name)),
 			providerconfig.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name)))))
+}
+
+// SetupGated adds a controller that reconciles ProviderConfigs by accounting for
+// their current usage.
+func SetupGated(mgr ctrl.Manager, o controller.Options) error {
+	o.Options.Gate.Register(func() {
+		if err := Setup(mgr, o); err != nil {
+			mgr.GetLogger().Error(err, "unable to setup reconciler", "gvk", v1beta1.ProviderConfigGroupVersionKind.String())
+		}
+	}, v1beta1.ProviderConfigGroupVersionKind, v1beta1.ProviderConfigUsageGroupVersionKind)
+	return nil
 }
