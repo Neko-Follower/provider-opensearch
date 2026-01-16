@@ -4,9 +4,9 @@ go 1.22
 
 require (
 	dario.cat/mergo v1.0.0
-	github.com/crossplane/crossplane-runtime v1.15.1
-	github.com/crossplane/crossplane-tools v0.0.0-20230925130601-628280f8bf79
-	github.com/crossplane/upjet v1.3.0-rc.0.0.20240314162745-2ef7077f6d16
+	github.com/crossplane/crossplane-runtime/v2 v2.0.0-20250730220209-c306b1c8b181
+	github.com/crossplane/crossplane-tools v0.0.0-20250731192036-00d407d8b7ec
+	github.com/crossplane/upjet/v2 v2.2.1-0.20251128133821-1e4f37b6b5f8
 	github.com/pkg/errors v0.9.1
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	k8s.io/apimachinery v0.29.1

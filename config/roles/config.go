@@ -3,7 +3,7 @@ package roles
 import (
 	"fmt"
 
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/tagesjump/provider-opensearch/config/opensearch"
 )
 

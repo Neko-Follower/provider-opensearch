@@ -3,7 +3,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	detection "github.com/tagesjump/provider-opensearch/internal/controller/anomaly/detection"
 	config "github.com/tagesjump/provider-opensearch/internal/controller/audit/config"

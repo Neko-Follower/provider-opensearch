@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/crossplane/upjet/pkg/pipeline"
+	"github.com/crossplane/upjet/v2/pkg/pipeline"
 
 	"github.com/tagesjump/provider-opensearch/config"
 )
