@@ -7,6 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
 type IndexPermissionsInitParameters struct {
@@ -218,8 +219,8 @@ type TenantPermissionsParameters struct {
 
 // RoleSpec defines the desired state of Role
 type RoleSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RoleParameters `json:"forProvider"`
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            RoleParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception

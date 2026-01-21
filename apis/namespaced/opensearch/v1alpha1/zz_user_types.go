@@ -7,6 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
 type UserInitParameters struct {
@@ -24,6 +25,14 @@ type UserInitParameters struct {
 	// (String) Description of the user.
 	// Description of the user.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// hashed password for the user, cannot be specified with password.
+	// The pre-hashed password for the user, cannot be specified with `password`.
+	PasswordHashSecretRef *v1.LocalSecretKeySelector `json:"passwordHashSecretRef,omitempty" tf:"-"`
+
+	// descriptive HTTP 400 Bad Request error. For AWS OpenSearch domains "password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character".
+	// The plain text password for the user, cannot be specified with `password_hash`. Some implementations may enforce a password policy. Invalid passwords may cause a non-descriptive HTTP 400 Bad Request error. For AWS OpenSearch domains "password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character".
+	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// (String) The name of the security user.
 	// The name of the security user.
@@ -76,12 +85,12 @@ type UserParameters struct {
 	// hashed password for the user, cannot be specified with password.
 	// The pre-hashed password for the user, cannot be specified with `password`.
 	// +kubebuilder:validation:Optional
-	PasswordHashSecretRef *v1.SecretKeySelector `json:"passwordHashSecretRef,omitempty" tf:"-"`
+	PasswordHashSecretRef *v1.LocalSecretKeySelector `json:"passwordHashSecretRef,omitempty" tf:"-"`
 
 	// descriptive HTTP 400 Bad Request error. For AWS OpenSearch domains "password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character".
 	// The plain text password for the user, cannot be specified with `password_hash`. Some implementations may enforce a password policy. Invalid passwords may cause a non-descriptive HTTP 400 Bad Request error. For AWS OpenSearch domains "password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character".
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// (String) The name of the security user.
 	// The name of the security user.
@@ -91,8 +100,8 @@ type UserParameters struct {
 
 // UserSpec defines the desired state of User
 type UserSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     UserParameters `json:"forProvider"`
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            UserParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception

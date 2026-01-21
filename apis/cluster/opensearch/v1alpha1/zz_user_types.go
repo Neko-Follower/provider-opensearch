@@ -25,6 +25,14 @@ type UserInitParameters struct {
 	// Description of the user.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// hashed password for the user, cannot be specified with password.
+	// The pre-hashed password for the user, cannot be specified with `password`.
+	PasswordHashSecretRef *v1.SecretKeySelector `json:"passwordHashSecretRef,omitempty" tf:"-"`
+
+	// descriptive HTTP 400 Bad Request error. For AWS OpenSearch domains "password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character".
+	// The plain text password for the user, cannot be specified with `password_hash`. Some implementations may enforce a password policy. Invalid passwords may cause a non-descriptive HTTP 400 Bad Request error. For AWS OpenSearch domains "password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character".
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// (String) The name of the security user.
 	// The name of the security user.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`

@@ -7,6 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
 type MappingInitParameters struct {
@@ -37,11 +38,11 @@ type MappingInitParameters struct {
 
 	// Reference to a Role in opensearch to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleNameRef *v1.Reference `json:"roleNameRef,omitempty" tf:"-"`
+	RoleNameRef *v1.NamespacedReference `json:"roleNameRef,omitempty" tf:"-"`
 
 	// Selector for a Role in opensearch to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleNameSelector *v1.Selector `json:"roleNameSelector,omitempty" tf:"-"`
+	RoleNameSelector *v1.NamespacedSelector `json:"roleNameSelector,omitempty" tf:"-"`
 
 	// (Set of String) A list of users.
 	// A list of users.
@@ -51,11 +52,11 @@ type MappingInitParameters struct {
 
 	// References to User in opensearch to populate users.
 	// +kubebuilder:validation:Optional
-	UsersRefs []v1.Reference `json:"usersRefs,omitempty" tf:"-"`
+	UsersRefs []v1.NamespacedReference `json:"usersRefs,omitempty" tf:"-"`
 
 	// Selector for a list of User in opensearch to populate users.
 	// +kubebuilder:validation:Optional
-	UsersSelector *v1.Selector `json:"usersSelector,omitempty" tf:"-"`
+	UsersSelector *v1.NamespacedSelector `json:"usersSelector,omitempty" tf:"-"`
 }
 
 type MappingObservation struct {
@@ -125,11 +126,11 @@ type MappingParameters struct {
 
 	// Reference to a Role in opensearch to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleNameRef *v1.Reference `json:"roleNameRef,omitempty" tf:"-"`
+	RoleNameRef *v1.NamespacedReference `json:"roleNameRef,omitempty" tf:"-"`
 
 	// Selector for a Role in opensearch to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleNameSelector *v1.Selector `json:"roleNameSelector,omitempty" tf:"-"`
+	RoleNameSelector *v1.NamespacedSelector `json:"roleNameSelector,omitempty" tf:"-"`
 
 	// (Set of String) A list of users.
 	// A list of users.
@@ -140,17 +141,17 @@ type MappingParameters struct {
 
 	// References to User in opensearch to populate users.
 	// +kubebuilder:validation:Optional
-	UsersRefs []v1.Reference `json:"usersRefs,omitempty" tf:"-"`
+	UsersRefs []v1.NamespacedReference `json:"usersRefs,omitempty" tf:"-"`
 
 	// Selector for a list of User in opensearch to populate users.
 	// +kubebuilder:validation:Optional
-	UsersSelector *v1.Selector `json:"usersSelector,omitempty" tf:"-"`
+	UsersSelector *v1.NamespacedSelector `json:"usersSelector,omitempty" tf:"-"`
 }
 
 // MappingSpec defines the desired state of Mapping
 type MappingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     MappingParameters `json:"forProvider"`
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            MappingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception

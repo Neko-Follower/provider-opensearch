@@ -7,6 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
 type RepositoryInitParameters struct {
@@ -65,8 +66,8 @@ type RepositoryParameters struct {
 
 // RepositorySpec defines the desired state of Repository
 type RepositorySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RepositoryParameters `json:"forProvider"`
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            RepositoryParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception

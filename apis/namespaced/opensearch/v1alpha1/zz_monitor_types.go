@@ -7,6 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
 type MonitorInitParameters struct {
@@ -36,8 +37,8 @@ type MonitorParameters struct {
 
 // MonitorSpec defines the desired state of Monitor
 type MonitorSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     MonitorParameters `json:"forProvider"`
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            MonitorParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
