@@ -9,9 +9,9 @@ import (
 
 const (
 	// ApisPackagePath is the golang path for this package.
-	ApisPackagePath = "github.com/tagesjump/provider-opensearch/apis/roles/v1alpha1"
+	ApisPackagePath = "github.com/tagesjump/provider-opensearch/apis/namespaced/roles/v1alpha1"
 	// ConfigPath is the golang path for this package.
-	ConfigPath = "github.com/tagesjump/provider-opensearch/config/roles"
+	ConfigPath = "github.com/tagesjump/provider-opensearch/config/namespaced/roles"
 )
 
 // Configure adds configurations for the roles group.

@@ -33,7 +33,7 @@ type MappingInitParameters struct {
 
 	// (String) The name of the security role.
 	// The name of the security role.
-	// +crossplane:generate:reference:type=github.com/tagesjump/provider-opensearch/apis/opensearch/v1alpha1.Role
+	// +crossplane:generate:reference:type=github.com/tagesjump/provider-opensearch/apis/namespaced/opensearch/v1alpha1.Role
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// Reference to a Role in opensearch to populate roleName.
@@ -46,7 +46,7 @@ type MappingInitParameters struct {
 
 	// (Set of String) A list of users.
 	// A list of users.
-	// +crossplane:generate:reference:type=github.com/tagesjump/provider-opensearch/apis/opensearch/v1alpha1.User
+	// +crossplane:generate:reference:type=github.com/tagesjump/provider-opensearch/apis/namespaced/opensearch/v1alpha1.User
 	// +listType=set
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 
@@ -120,7 +120,7 @@ type MappingParameters struct {
 
 	// (String) The name of the security role.
 	// The name of the security role.
-	// +crossplane:generate:reference:type=github.com/tagesjump/provider-opensearch/apis/opensearch/v1alpha1.Role
+	// +crossplane:generate:reference:type=github.com/tagesjump/provider-opensearch/apis/namespaced/opensearch/v1alpha1.Role
 	// +kubebuilder:validation:Optional
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
@@ -134,7 +134,7 @@ type MappingParameters struct {
 
 	// (Set of String) A list of users.
 	// A list of users.
-	// +crossplane:generate:reference:type=github.com/tagesjump/provider-opensearch/apis/opensearch/v1alpha1.User
+	// +crossplane:generate:reference:type=github.com/tagesjump/provider-opensearch/apis/namespaced/opensearch/v1alpha1.User
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
