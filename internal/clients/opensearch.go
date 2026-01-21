@@ -75,14 +75,21 @@ const (
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal opensearch.upjet credentials as JSON"
+	errUnmarshalCredentials = "cannot unmarshal opensearch credentials as JSON"
+	errNoRequiredFieldURL   = "Missing required field - url"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
-func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
+func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{}
+		ps := terraform.Setup{
+			Version: version,
+			Requirement: terraform.ProviderRequirement{
+				Source:  providerSource,
+				Version: providerVersion,
+			},
+		}
 
 		pcSpec, err := resolveProviderConfig(ctx, client, mg)
 		if err != nil {
@@ -101,37 +108,25 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 		// set provider configuration
 		ps.Configuration = map[string]any{}
 
-		// Either the path to or the contents of a Service Account key file in JSON format
-		ps.Configuration[serviceAccountKeyFile] = string(data)
+		if value, ok := creds[url]; ok {
+			ps.Configuration[url] = value
+		} else {
+			return ps, errors.New(errNoRequiredFieldURL)
+		}
 
 		for _, setting := range []string{
-			folderID, cloudID, endpoint, regionID, zoneID, token,
-			allowInsecure, plainText, maxRetries, storageEndpoint, storageAccessKey,
-			storageSecretKey, ymqEndpoint, ymqAccessKey, ymqSecretKey, sharedCredentialsFile, profile,
+			awsAccessKey, awsAssumeRoleArn, awsAssumeRoleExternalId, awsProfile, awsRegion,
+			awsSecretKey, awsSignatureService, awsToken, cacertFile, clientCertPath, clientKeyPath,
+			healthcheck, hostOverride, insecure, opensearchVersion, password, proxy, signAwsRequests,
+			sniff, token, tokenName, username, versionPingTimeout,
 		} {
 			if value, ok := creds[setting]; ok {
 				ps.Configuration[setting] = value
 			}
 		}
-		return ps, errors.Wrap(configureNoForkYandexCloudClient(ctx, &ps, *tfProvider), "failed to configure the Terraform YandexCloud provider meta")
-	}
-}
 
-func configureNoForkYandexCloudClient(ctx context.Context, ps *terraform.Setup, p schema.Provider) error {
-	// Please be aware that this implementation relies on the schema.Provider
-	// parameter `p` being a non-pointer. This is because normally
-	// the Terraform plugin SDK normally configures the provider
-	// only once and using a pointer argument here will cause
-	// race conditions between resources referring to different
-	// ProviderConfigs.
-	diag := p.Configure(context.WithoutCancel(ctx), &tfsdk.ResourceConfig{
-		Config: ps.Configuration,
-	})
-	if diag != nil && diag.HasError() {
-		return errors.Errorf("failed to configure the provider: %v", diag)
+		return ps, nil
 	}
-	ps.Meta = p.Meta()
-	return nil
 }
 
 func toSharedPCSpec(pc *clusterv1beta1.ProviderConfig) (*namespacedv1beta1.ProviderConfigSpec, error) {

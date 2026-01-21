@@ -30,6 +30,8 @@ import (
 	apisNamespaced "github.com/tagesjump/provider-opensearch/apis/namespaced"
 	"github.com/tagesjump/provider-opensearch/config"
 	"github.com/tagesjump/provider-opensearch/internal/clients"
+	controllerCluster "github.com/tagesjump/provider-opensearch/internal/controller/cluster"
+	controllerNamespaced "github.com/tagesjump/provider-opensearch/internal/controller/cluster"
 	"github.com/tagesjump/provider-opensearch/internal/features"
 )
 
@@ -120,6 +122,7 @@ func main() {
 	kingpin.FatalIfError(apiextensionsv1.AddToScheme(mgr.GetScheme()), "Cannot add api-extensions APIs to scheme")
 	kingpin.FatalIfError(authv1.AddToScheme(mgr.GetScheme()), "Cannot add k8s authorization APIs to scheme")
 
+	provider, err := config.GetProvider(false)
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  log,
@@ -128,7 +131,7 @@ func main() {
 			MaxConcurrentReconciles: *maxReconcileRate,
 			Features:                &feature.Flags{},
 		},
-		Provider: config.GetProvider(),
+		Provider: provider,
 		// use the following WorkspaceStoreOption to enable the shared gRPC mode
 		// terraform.WithProviderRunner(terraform.NewSharedProvider(log, os.Getenv("TERRAFORM_NATIVE_PROVIDER_PATH"), terraform.WithNativeProviderArgs("-debuggable")))
 		WorkspaceStore: terraform.NewWorkspaceStore(log),
@@ -136,6 +139,7 @@ func main() {
 		StartWebhooks:  *certsDir != "",
 	}
 
+	providerNamespaced, err := config.GetProviderNamespaced(false)
 	namespacedOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  log,
@@ -144,7 +148,7 @@ func main() {
 			MaxConcurrentReconciles: *maxReconcileRate,
 			Features:                &feature.Flags{},
 		},
-		Provider: config.GetProvider(),
+		Provider: providerNamespaced,
 		// use the following WorkspaceStoreOption to enable the shared gRPC mode
 		// terraform.WithProviderRunner(terraform.NewSharedProvider(log, os.Getenv("TERRAFORM_NATIVE_PROVIDER_PATH"), terraform.WithNativeProviderArgs("-debuggable")))
 		WorkspaceStore: terraform.NewWorkspaceStore(log),
