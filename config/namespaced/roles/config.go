@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
-	"github.com/tagesjump/provider-opensearch/config/opensearch"
+	"github.com/tagesjump/provider-opensearch/config/namespaced/opensearch"
 )
 
 const (

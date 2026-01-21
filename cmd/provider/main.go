@@ -26,11 +26,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
+	apisCluster "github.com/crossplane/upjet-provider-template/apis/cluster"
+	apisNamespaced "github.com/crossplane/upjet-provider-template/apis/namespaced"
 	"github.com/tagesjump/provider-opensearch/config"
 	"github.com/tagesjump/provider-opensearch/internal/clients"
 	"github.com/tagesjump/provider-opensearch/internal/features"
-	apisCluster "github.com/upbound/upjet-provider-template/apis/cluster"
-	apisNamespaced "github.com/upbound/upjet-provider-template/apis/namespaced"
 )
 
 const (
