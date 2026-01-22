@@ -31,7 +31,7 @@ import (
 	"github.com/tagesjump/provider-opensearch/config"
 	"github.com/tagesjump/provider-opensearch/internal/clients"
 	controllerCluster "github.com/tagesjump/provider-opensearch/internal/controller/cluster"
-	controllerNamespaced "github.com/tagesjump/provider-opensearch/internal/controller/cluster"
+	controllerNamespaced "github.com/tagesjump/provider-opensearch/internal/controller/namespaced"
 	"github.com/tagesjump/provider-opensearch/internal/features"
 )
 

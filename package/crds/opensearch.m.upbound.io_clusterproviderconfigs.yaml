@@ -8,6 +8,10 @@ metadata:
 spec:
   group: opensearch.m.upbound.io
   names:
+    categories:
+    - crossplane
+    - provider
+    - opensearch
     kind: ClusterProviderConfig
     listKind: ClusterProviderConfigList
     plural: clusterproviderconfigs
@@ -18,14 +22,14 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
-    - jsonPath: .spec.credentials.secretRef.name
-      name: SECRET-NAME
+    - jsonPath: .spec.source
+      name: SOURCE
       priority: 1
       type: string
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: A ClusterProviderConfig configures the Template provider.
+        description: A ClusterProviderConfig configures a OpenSearch provider.
         properties:
           apiVersion:
             description: |-

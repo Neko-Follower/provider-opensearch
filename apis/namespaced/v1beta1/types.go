@@ -78,12 +78,12 @@ type ProviderConfigUsageList struct {
 
 // +kubebuilder:object:root=true
 
-// A ClusterProviderConfig configures the Template provider.
+// A ClusterProviderConfig configures a OpenSearch provider.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:printcolumn:name="SECRET-NAME",type="string",JSONPath=".spec.credentials.secretRef.name",priority=1
+// +kubebuilder:printcolumn:name="SOURCE",type="string",JSONPath=".spec.source",priority=1
 // +kubebuilder:resource:scope=Cluster
-// +kubebuilder:storageversion
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,provider,opensearch}
 type ClusterProviderConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
